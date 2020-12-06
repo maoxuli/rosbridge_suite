@@ -1,4 +1,6 @@
 <launch>
+  <arg name="respawn" default="false" />
+  <arg name="name" default="rosbridge_websocket" />
   <arg name="port" default="9090" />
   <arg name="address" default="0.0.0.0" />
   <arg name="ssl" default="false" />
@@ -32,7 +34,8 @@
   <arg unless="$(arg bson_only_mode)" name="binary_encoder" default="default"/>
 
   <group if="$(arg ssl)">
-    <node name="rosbridge_websocket" pkg="rosbridge_server" type="rosbridge_websocket" output="$(arg output)">
+    <node name="$(arg name)" pkg="rosbridge_server" type="rosbridge_websocket" 
+          output="$(arg output)" respawn="$(arg respawn)">
       <param name="certfile" value="$(arg certfile)" />
       <param name="keyfile" value="$(arg keyfile)" />
       <param name="authenticate" value="$(arg authenticate)" />
@@ -56,7 +59,8 @@
     </node>
   </group>
   <group unless="$(arg ssl)">
-    <node name="rosbridge_websocket" pkg="rosbridge_server" type="rosbridge_websocket" output="$(arg output)">
+    <node name="$(arg name)" pkg="rosbridge_server" type="rosbridge_websocket" 
+          output="$(arg output)" respawn="$(arg respawn)">
       <param name="authenticate" value="$(arg authenticate)" />
       <param name="port" value="$(arg port)"/>
       <param name="address" value="$(arg address)"/>
